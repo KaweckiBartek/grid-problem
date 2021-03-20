@@ -8,7 +8,15 @@ const Grid = () => {
   const [ size, setSize ] = useState(100)
   const [ showCount, setShowCount ] = useState(false)
 
-  const [initialGrid, setInitialGrid] = useState([
+  const initialGrid = [
+    [ 0, 0, 0, 0, 1 ],
+    [ 1, 1, 0, 0, 0 ],
+    [ 1, 1, 0, 1, 1 ],
+    [ 0, 0, 0, 0, 0 ],
+    [ 1, 1, 1, 0, 0 ],
+  ]
+
+  const [ grid, setGrid ] = useState([
     [ 0, 0, 0, 0, 1 ],
     [ 1, 1, 0, 0, 0 ],
     [ 1, 1, 0, 1, 1 ],
@@ -16,18 +24,10 @@ const Grid = () => {
     [ 1, 1, 1, 0, 0 ],
   ])
 
-  const [ grid, setGrid ] = useState(initialGrid)
-
-  console.log(grid);
-  console.log(initialGrid);
-
-  useEffect(() => {
-    setGrid(initialGrid)
-  },[initialGrid])
-  
-  
   return (
-    <div className="grid">
+    <div className="grid"
+    onClick={()=> setGrid(initialGrid)}
+    >
       {grid.map((rows, pozY) => {
         return (
           <div key={pozY} className="row">
