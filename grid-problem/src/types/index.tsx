@@ -7,6 +7,6 @@ export interface ICeil {
   color: string,
   size: number,
   grid: number[][],
-  showCount: boolean,
-  setShowCount: (arg: boolean) => void,
+  initialGrid: number[][],
+  setGrid: (arg: number[][]) => void,
 }

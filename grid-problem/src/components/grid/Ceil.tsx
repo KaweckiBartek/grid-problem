@@ -1,12 +1,15 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
+import { setOriginalNode } from 'typescript'
+import { useOnClickOutside } from '../../hooks'
 import { ICeil } from '../../types'
 
 
 
-const Ceil = ({ grid, pozX, pozY, color, size, showCount, setShowCount }: ICeil) => {
+const Ceil = ({ grid, pozX, pozY, color, size, setGrid, initialGrid }: ICeil) => {
   const [ count, setCount ] = useState(0)
+  const [show, setShow] = useState(false)
+  const refi = useRef(null)
   
-
   const countFields = (pozX: number, pozY: number, grid: number[][]) => {
     let counter = 0;
 
@@ -35,24 +38,38 @@ const Ceil = ({ grid, pozX, pozY, color, size, showCount, setShowCount }: ICeil)
   }
 
   const handleClick = () => {
-    !showCount && countFields(pozX, pozY, grid)
-    setShowCount(true)
+    countFields(pozX, pozY, grid)
+    setShow(true)
+    setGrid([
+      [ 0, 0, 0, 0, 1 ],
+      [ 1, 1, 0, 0, 0 ],
+      [ 1, 1, 0, 1, 1 ],
+      [ 0, 0, 0, 0, 0 ],
+      [ 1, 1, 1, 0, 0 ],
+    ])
   }
 
-  const style = {
-    backgroundColor: color,
-    width: `${size}px`,
-    height: `${size}px`,
-    border: "1px solid gray",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  }
+
+const handleClickOutside = () => {
+  setShow(false)
+}
+
+useOnClickOutside(refi, handleClickOutside) 
+  
+const style = {
+  backgroundColor: color,
+  width: `${size}px`,
+  height: `${size}px`,
+  border: "1px solid gray",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+}
 
   return (
 
-    <div {...{ style }} onClick={handleClick}>
-      {showCount && count !== 0 && <h3>{count}</h3>}
+    <div ref={refi} {...{ style }} onClick={handleClick}>
+      {show && count !== 0 && <h3>{count}</h3>}
     </div>
   )
 }

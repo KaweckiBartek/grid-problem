@@ -21,6 +21,29 @@ export const useOnClickOutside = (ref: any, handler: any) => {
         document.removeEventListener('touchstart', listener);
       };
     },
-    [ref, handler]
+    []
   );
 }
+
+// import { useEffect, useRef, RefObject } from 'react';
+
+// export const useClickOutside = (onClick: Function): RefObject<HTMLDivElement> => {
+//   const node: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
+
+//   const handleClick = (e: MouseEvent): void => {
+//     const { current } = node;
+//     if (!current || current.contains(e.target as Node)) {
+//       return;
+//     }
+//     onClick();
+//   };
+
+//   useEffect(() => {
+//     document.addEventListener('mousedown', handleClick);
+//     return (): void => {
+//       document.removeEventListener('mousedown', handleClick);
+//     };
+//   }, []);
+
+//   return node;
+// };
