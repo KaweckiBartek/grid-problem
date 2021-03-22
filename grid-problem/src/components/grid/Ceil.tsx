@@ -7,7 +7,6 @@ import { ICeil } from '../../types'
 const Ceil = ({ grid, pozX, pozY, size, cols, hoverColor, nullColor, filledColor }: ICeil) => {
   const [ count, setCount ] = useState(0)
   const [ show, setShow ] = useState(false)
-  const [hover, setHover] = useState(false)
   const refi = useRef(null)
   const [backgroundColor, setBackGroundColor] = useState('')
 
@@ -67,7 +66,6 @@ const Ceil = ({ grid, pozX, pozY, size, cols, hoverColor, nullColor, filledColor
         (grid[ pozY ][ pozX ] === 2 || grid[ pozY ][ pozX ] === 3)
       ) {
         grid[ pozY ][ pozX ] = 1;
-        setHover(false)
         setBackGroundColor(filledColor)
         visit(pozY + 1, pozX); // top
         visit(pozY, pozX + 1); // right

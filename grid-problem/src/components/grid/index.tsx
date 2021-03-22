@@ -39,7 +39,7 @@ const Grid = () => {
           )
         })}
       </>
-      <GridSettings {...{filledColor, setFilledColor, nullColor, setNullColor, hoverColor , setHoverColor}} />
+      <GridSettings {...{filledColor, setFilledColor, nullColor, setNullColor, hoverColor , setHoverColor, setNxN, setSize}} />
     </div>
   )
 }

@@ -19,5 +19,14 @@ export interface IGridSettings {
   setNullColor: (arg: string) => void,
   hoverColor: string,
   setHoverColor: (arg: string) => void,
+  setNxN: (arg: any) => void,
+  setSize: (arg: any) => void,
 
+}
+
+export interface  IGridSlider {
+  setNxN: (arg: any) => void
+}
+export interface  ICeilSlider {
+  setSize: (arg: any) => void
 }
