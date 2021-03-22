@@ -12,3 +12,10 @@ export interface ICeil {
   initialGrid: number[][],
   setGrid: (arg: number[][]) => void,
 }
+
+export interface IGridSettings {
+  setFiledColor: (arg: string) => void,
+  setNullColor: (arg: string) => void,
+  setHoverColor: (arg: string) => void,
+
+}
