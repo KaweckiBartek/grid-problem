@@ -5,24 +5,23 @@ import GridSettings from './GridSettings'
 
 const Grid = () => {
   const [ hoverColor, setHoverColor ] = useState("green")
-  const [ filedCollor, setFiledColor ] = useState("tomato")
+  const [ filledColor, setFilledColor ] = useState("tomato")
   const [ nullColor, setNullColor ] = useState("white")
   const [ size, setSize ] = useState(100)
+  const initialGrid = 5
+  const [NxN, setNxN] = useState(initialGrid)
+  const [ grid, setGrid ] = useState<number[][]>([])
 
-  const initialGrid = [
-    [ 0, 0, 0, 0, 1 ],
-    [ 1, 1, 0, 0, 0 ],
-    [ 1, 1, 0, 1, 1 ],
-    [ 0, 0, 0, 0, 0 ],
-    [ 1, 1, 1, 0, 0 ],
-  ]
-
-  const [ grid, setGrid ] = useState(initialGrid)
-
-  console.log(grid);
-
-
-
+  useEffect(() => {
+    let array = [] as any;
+    for (let i = 0; i < NxN; i++) {
+      array[i] = []
+      for (let j = 0; j < grid.length; j++) {
+        array[ i ][j] = Math.round(Math.random())
+      }
+    }
+    setGrid(array)
+}, [NxN, grid.length])
 
   return (
     <div className="grid"
@@ -33,14 +32,14 @@ const Grid = () => {
             <div key={pozY} className="row">
               {rows.map((cols, pozX) => {
                 return (
-                  <Ceil {...{ initialGrid, setGrid, grid, pozX, pozY, size, key: pozX, hoverColor, cols }} color={cols === 1 || cols === 3 ? filedCollor : cols === 2 ? hoverColor : nullColor} />
+                  <Ceil {...{ grid, pozX, pozY, size, key: pozX, cols, hoverColor, nullColor, filledColor, }}/>
                 )
               })}
             </div>
           )
         })}
       </>
-      <GridSettings {...{setFiledColor, setNullColor, setHoverColor}} />
+      <GridSettings {...{filledColor, setFilledColor, nullColor, setNullColor, hoverColor , setHoverColor}} />
     </div>
   )
 }

@@ -1,18 +1,36 @@
 import React from 'react'
-import Select from "react-dropdown-select";
-import { filedColorsOptions, hoverColorsOptions, nullColorsOptions } from '../../data';
+import { SketchPicker } from 'react-color';
 import { IGridSettings } from '../../types';
 
 
-const GridSettings = ({setFiledColor, setNullColor, setHoverColor}: IGridSettings) => {
-
+const GridSettings = ({ filledColor, setFilledColor, nullColor, setNullColor, hoverColor, setHoverColor }: IGridSettings) => {
 
   return (
     <div className="grid__settings">
-      <Select options={filedColorsOptions} onChange={(values) => setFiledColor(values)} />
-      <Select options={nullColorsOptions} onChange={(values) => setNullColor(values)} />
-      <Select options={hoverColorsOptions} onChange={(values) => setHoverColor(values)} />
-      
+      <div className="colorPicker">
+        <p className="pickerTitle">Choose filled color</p>
+        <SketchPicker
+          color={filledColor}
+          onChangeComplete={(color) => setFilledColor(color.hex)}
+        />
+
+      </div>
+      <div className="colorPicker">
+        <p className="pickerTitle">Choose null color</p>
+        <SketchPicker
+          color={nullColor}
+          onChangeComplete={(color) => setNullColor(color.hex)}
+        />
+
+      </div>
+      <div className="colorPicker">
+        <p className="pickerTitle">Choose hover color</p>
+        <SketchPicker
+          color={hoverColor}
+          onChangeComplete={(color) => setHoverColor(color.hex)}
+        />
+
+      </div>
     </div>
   )
 }

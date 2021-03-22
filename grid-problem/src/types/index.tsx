@@ -4,18 +4,20 @@ import React from 'react'
 export interface ICeil {
   pozX: number,
   pozY: number,
-  color: string,
   hoverColor: string,
+  nullColor: string,
+  filledColor: string,
   size: number,
   grid: number[][],
   cols: number,
-  initialGrid: number[][],
-  setGrid: (arg: number[][]) => void,
 }
 
 export interface IGridSettings {
-  setFiledColor: (arg: string) => void,
+  filledColor: string,
+  setFilledColor: (arg: string) => void,
+  nullColor: string,
   setNullColor: (arg: string) => void,
+  hoverColor: string,
   setHoverColor: (arg: string) => void,
 
 }

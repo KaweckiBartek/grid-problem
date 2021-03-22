@@ -4,13 +4,26 @@ import { ICeil } from '../../types'
 
 
 
-const Ceil = ({ cols, grid, pozX, pozY, size, setGrid, color, hoverColor }: ICeil) => {
+const Ceil = ({ grid, pozX, pozY, size, cols, hoverColor, nullColor, filledColor }: ICeil) => {
   const [ count, setCount ] = useState(0)
   const [ show, setShow ] = useState(false)
   const [hover, setHover] = useState(false)
   const refi = useRef(null)
-  const [backgroundColor, setBackGroundColor] = useState(color)
+  const [backgroundColor, setBackGroundColor] = useState('')
 
+
+  useEffect(() => {
+    if (cols === 1 || cols === 3) {
+      setBackGroundColor(filledColor)
+    } else if (cols === 0) {
+      setBackGroundColor(nullColor)
+    }
+    else if (cols === 2) {
+      setBackGroundColor(hoverColor)
+    }
+    
+  },[filledColor, nullColor, hoverColor, cols] )
+  
   const handleClick = () => {
     countFields(pozX, pozY, grid)
     setShow(true)
@@ -29,8 +42,8 @@ const Ceil = ({ cols, grid, pozX, pozY, size, setGrid, color, hoverColor }: ICei
         pozX < grid[ pozY ].length &&
         ( grid[ pozY ][ pozX ] === 1 )
       ) {
-        setBackGroundColor(hoverColor)
         grid[ pozY ][ pozX ] = 2;
+        setBackGroundColor(hoverColor)
         visit(pozY + 1, pozX); // top
         visit(pozY, pozX + 1); // right
         visit(pozY - 1, pozX); // bottom
@@ -38,13 +51,10 @@ const Ceil = ({ cols, grid, pozX, pozY, size, setGrid, color, hoverColor }: ICei
       }
     };
 
-    if  ( grid[ pozY ][ pozX ] === 1 || grid[ pozY ][ pozX ] === 1) {
+    if  ( grid[ pozY ][ pozX ] === 1) {
       visit(pozY, pozX);
-      console.log(grid);
       return setBackGroundColor(hoverColor)
-      
     }
-
   }
 
   const resetConectedFields = (pozX: number, pozY: number, grid: number[][]) => {
@@ -58,7 +68,7 @@ const Ceil = ({ cols, grid, pozX, pozY, size, setGrid, color, hoverColor }: ICei
       ) {
         grid[ pozY ][ pozX ] = 1;
         setHover(false)
-        setBackGroundColor(color)
+        setBackGroundColor(filledColor)
         visit(pozY + 1, pozX); // top
         visit(pozY, pozX + 1); // right
         visit(pozY - 1, pozX); // bottom
@@ -98,24 +108,16 @@ const Ceil = ({ cols, grid, pozX, pozY, size, setGrid, color, hoverColor }: ICei
     return setCount(counter);
   }
 
- 
-
   useOnClickOutside(refi, handleClickOutside)
 
   const handleOnHover = () => {
     hoverConectedFields(pozX, pozY, grid)
   }
 
-
   const handleOnMouseLeave = () => {
     resetConectedFields(pozX, pozY, grid)
   }
 
-  useEffect(() => {
-    cols === 2 && setBackGroundColor(hoverColor)
-  }, [cols, hoverColor, grid])
-
-  
   const style = {
     backgroundColor,
     width: `${size}px`,
