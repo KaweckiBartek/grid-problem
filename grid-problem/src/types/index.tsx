@@ -5,8 +5,10 @@ export interface ICeil {
   pozX: number,
   pozY: number,
   color: string,
+  hoverColor: string,
   size: number,
   grid: number[][],
+  cols: number,
   initialGrid: number[][],
   setGrid: (arg: number[][]) => void,
 }
