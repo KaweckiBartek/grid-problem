@@ -23,6 +23,8 @@ const Grid = () => {
     setGrid(array)
 }, [NxN, grid.length])
 
+
+
   return (
     <div className="grid"
     >
@@ -32,7 +34,7 @@ const Grid = () => {
             <div key={pozY} className="row">
               {rows.map((cols, pozX) => {
                 return (
-                  <Ceil {...{ grid, pozX, pozY, size, key: pozX, cols, hoverColor, nullColor, filledColor, }}/>
+                  <Ceil {...{ grid, pozX, pozY, size, key: pozX, cols, hoverColor, nullColor, filledColor, setGrid }}/>
                 )
               })}
             </div>
