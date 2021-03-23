@@ -9,8 +9,11 @@ export interface ICeil {
   filledColor: string,
   size: number,
   grid: number[][],
-  setGrid: (arg: number[][]) => void;
   cols: number,
+  // count: number,
+  setHoverOn: (arg: boolean) => void,
+  setActiveX: (arg: number) => void,
+  setActiveY: (arg: number) => void,
 }
 
 export interface IGridSettings {

@@ -4,13 +4,12 @@ import { ICeil } from '../../types'
 
 
 
-const Ceil = ({ grid, pozX, pozY, size, cols, hoverColor, nullColor, filledColor, setGrid }: ICeil) => {
+const Ceil = ({grid ,pozX, pozY, size, cols, hoverColor, nullColor, filledColor, setActiveX, setActiveY, setHoverOn }: ICeil) => {
   const [ count, setCount ] = useState(0)
   const [ show, setShow ] = useState(false)
   const refi = useRef(null)
   const [ backgroundColor, setBackGroundColor ] = useState('')
   // const [columns, setColumns] = useState(cols)
-
 
   useEffect(() => {
     if (cols === 1) {
@@ -22,65 +21,8 @@ const Ceil = ({ grid, pozX, pozY, size, cols, hoverColor, nullColor, filledColor
       setBackGroundColor(hoverColor)
     }
     
-  },[filledColor, nullColor, hoverColor ,cols] )
+  },[filledColor, nullColor, hoverColor, cols ,grid] )
   
-  const handleClick = () => {
-    countFields(pozX, pozY, grid)
-    setShow(true)
-  }
-
-  const handleClickOutside = () => {
-    setShow(false)
-  }
-
-
-  const hoverConectedFields = (pozX: number, pozY: number, grid: number[][]) => {
-    const visit = (pozY: number, pozX: number) => {
-      if (
-        pozY >= 0 &&
-        pozX >= 0 &&
-        pozY < grid.length &&
-        pozX < grid[ pozY ].length &&
-        ( grid[ pozY ][ pozX ] === 1 )
-      ) {
-        grid[ pozY ][ pozX ] = 2;
-        // setBackGroundColor(hoverColor)
-        visit(pozY + 1, pozX); // top
-        visit(pozY, pozX + 1); // right
-        visit(pozY - 1, pozX); // bottom
-        visit(pozY, pozX - 1); // left     
-      }
-    };
-
-    if  ( grid[ pozY ][ pozX ] === 1) {
-      visit(pozY, pozX);
-      return setBackGroundColor(hoverColor)
-    }
-  }
-
-  const resetConectedFields = (pozX: number, pozY: number, grid: number[][]) => {
-    const visit = (pozY: number, pozX: number) => {
-      if (
-        pozY >= 0 &&
-        pozX >= 0 &&
-        pozY < grid.length &&
-        pozX < grid[ pozY ].length &&
-        (grid[ pozY ][ pozX ] === 2 || grid[ pozY ][ pozX ] === 3)
-      ) {
-        grid[ pozY ][ pozX ] = 1;
-        setBackGroundColor(filledColor)
-        visit(pozY + 1, pozX); // top
-        visit(pozY, pozX + 1); // right
-        visit(pozY - 1, pozX); // bottom
-        visit(pozY, pozX - 1); // left     
-      }
-    };
-
-    if  ( grid[ pozY ][ pozX ] === 2 || grid[ pozY ][ pozX ] === 3) {
-      visit(pozY, pozX);
-    }
-  }
-
   const countFields = (pozX: number, pozY: number, grid: number[][]) => {
     let counter = 0;
 
@@ -95,7 +37,7 @@ const Ceil = ({ grid, pozX, pozY, size, cols, hoverColor, nullColor, filledColor
         counter += 1
         grid[ pozY ][ pozX ] = 3;
         console.log(grid[ pozY ][ pozX ] = 3);
-        
+
         visit(pozY + 1, pozX); // top
         visit(pozY, pozX + 1); // right
         visit(pozY - 1, pozX); // bottom
@@ -105,22 +47,35 @@ const Ceil = ({ grid, pozX, pozY, size, cols, hoverColor, nullColor, filledColor
 
     if (grid[ pozY ][ pozX ] === 2) {
       visit(pozY, pozX);
-      
+
     }
 
     return setCount(counter);
   }
 
+  const handleClick = () => {
+    countFields(pozX, pozY, grid)
+    setShow(true)
+
+  }
+
+  const handleClickOutside = () => {
+    setShow(false)
+  }
+
+
   useOnClickOutside(refi, handleClickOutside)
 
   const handleOnHover = () => {
-    hoverConectedFields(pozX, pozY, grid)
+    setHoverOn(true)
+    setActiveX(pozX)
+    setActiveY(pozY)
   }
 
-  const handleOnMouseLeave = () => {
-    resetConectedFields(pozX, pozY, grid)
-   
-  }
+  // const handleOnMouseLeave = () => {
+  //   // resetConectedFields(pozX, pozY, grid)
+  //   setHoverOn(false)
+  // }
 
   const style = {
     backgroundColor,
@@ -133,9 +88,9 @@ const Ceil = ({ grid, pozX, pozY, size, cols, hoverColor, nullColor, filledColor
   }
 
   
-
+  // onMouseLeave={handleOnMouseLeave}
   return (
-    <div ref={refi} className={`ceil-${pozX},${pozY}`}  {...{ style }} onMouseLeave={handleOnMouseLeave} onMouseOver={handleOnHover} onClick={handleClick}>
+    <div ref={refi}  className={`ceil-${pozX},${pozY}`}  {...{ style }}  onMouseEnter={handleOnHover} onMouseOver={handleOnHover} onClick={handleClick}>
       {show && count !== 0 && <h3>{count}</h3>}
     </div>
   )
