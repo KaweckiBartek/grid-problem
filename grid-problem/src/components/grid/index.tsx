@@ -1,25 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import cloneDeep from 'lodash/cloneDeep';
-import { useLocalStorage } from '../../hooks'
 import Ceil from './Ceil'
 import GridSettings from './GridSettings'
 import NullCeil from './NullCeil'
-
 
 const Grid = () => {
   const [ hoverColor, setHoverColor ] = useState("yellow")
   const [ filledColor, setFilledColor ] = useState("tomato")
   const [ nullColor, setNullColor ] = useState("white")
-  const [ size, setSize ] = useState(50)
-  const [ NxN, setNxN ] = useState(5)
+  const [ size, setSize ] = useState(30)
+  const [ NxN, setNxN ] = useState(15)
   const [ grid, setGrid ] = useState<number[][]>([])
-  // const [ initialGrid, setInitialGrid ] = useState<number[][]>([])
-  const [ initialGrid, setInitialGrid ] = useLocalStorage<any>('initialGrid', []);
+  const [ initialGrid, setInitialGrid ] = useState<number[][]>([])
   const [ activePosition, setActivePosition ] = useState({ x: 0, y: 0 })
-
-  const setPosition = (x: number, y: number) => {
-    setActivePosition({ x, y })
-  }
 
   const generateGrid = (NxN: number) => {
     let array = [] as any;
@@ -29,21 +22,18 @@ const Grid = () => {
         array[ i ][ j ] = Math.round(Math.random())
       }
     }
-    return array
+    return setGrid(array)
+  }
+
+  const generateInitialGrid = () => {
+    const initialGrid = cloneDeep(grid)
+    return setInitialGrid(initialGrid)
   }
 
   const resetGrid = () => {
-    grid.map((el, i) => el.map((el,i)=> (el === 2 || el === 3) ? el = 1 : el))
-  }
-
-
-  useEffect(() => {
-    const randomGrid = generateGrid(NxN)
-    // const initialGrid = _.cloneDeep(randomGrid)
-    setGrid(randomGrid)
-    // setInitialGrid(initialGrid)
-  }, [ NxN ])
-
+    let initial = cloneDeep(initialGrid);
+    return setGrid(initial)
+  };
 
   const hoverConectedFields = (pozX: number, pozY: number, grid: number[][]) => {
     const visit = (pozY: number, pozX: number) => {
@@ -68,25 +58,20 @@ const Grid = () => {
 
   }
 
-  // const resetGrid = () => {
-  //   setGrid(initialGrid)
-  // };
+  const setPosition = (x: number, y: number) => {
+    setActivePosition({ x, y })
+  }
 
+  useMemo(() => generateGrid(NxN), [ NxN ])
 
-  console.log(initialGrid);
-  console.log("********************");
-  console.log(grid);
-  
-  
   useEffect(() => {
-    activePosition.x && activePosition.y && hoverConectedFields(activePosition.x, activePosition.y, grid);
-  }, [ activePosition, grid, initialGrid ])
+    generateInitialGrid()
+  }, [ NxN ])
 
-  // activePosition.x && activePosition.y && resetGrid(activePosition.x, activePosition.y, grid)
-  // useEffect(() => {
-  //   activeY && activeY && resetConectedFields(activeX, activeY, grid)
-  //  },[activeY, activeX, grid, hoverOn])
 
+  useMemo(() => {
+    activePosition.x && activePosition.y && hoverConectedFields(activePosition.x, activePosition.y, grid)
+  }, [ activePosition.x, activePosition.y, grid ])
 
   return (
     <div className="grid"
@@ -99,9 +84,9 @@ const Grid = () => {
                 {rows.map((value, pozX) => {
                   return (
                     value === 0 ?
-                      <NullCeil key={`${pozX}${pozY}`} {...{ pozX, pozY, size, nullColor, resetGrid, }} />
+                      <NullCeil key={`${pozX}${pozY}`} {...{ pozX, pozY, size, nullColor, resetGrid}} />
                       :
-                      <Ceil key={`${pozX}${pozY}`} {...{ grid, pozX, pozY, size, value, hoverColor, nullColor, filledColor, setPosition }} />
+                      <Ceil key={`${pozX}${pozY}`} {...{ grid, pozX, pozY, size, value, hoverColor, nullColor, filledColor, setPosition, resetGrid }} />
                   )
                 })}
               </>

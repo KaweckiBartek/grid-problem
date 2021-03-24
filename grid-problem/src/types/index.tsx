@@ -10,8 +10,9 @@ export interface ICeil {
   size: number,
   grid: number[][],
   value: number,
-  // count: number,
-  setPosition: any,
+  setPosition: (x: number, y: number) => void,
+  resetGrid: () => void,
+
 }
 
 export interface INullCeil {
@@ -19,7 +20,7 @@ export interface INullCeil {
   pozY: number,
   nullColor: string,
   size: number,
-  resetGrid: any,
+  resetGrid: () => void,
 }
 
 export interface IGridSettings {

@@ -9,12 +9,13 @@ const NullCeil = ({pozX, pozY, size, nullColor, resetGrid }: INullCeil) => {
     height: `${size}px`,
     border: "1px solid gray",
   }
-
-  // onMouseEnter={handleOnHover}
-  // onMouseLeave={handleOnMouseLeave}
-  // onMouseEnter={resetGrid} onMouseOver={resetGrid}
+ 
+  const handleHover = () => {
+    resetGrid()
+  }
+  
   return (
-    <div onClick={resetGrid}  className={`ceil ceil-${pozX},${pozY}`} {...{ style }} >  
+    <div  onMouseEnter={handleHover} onMouseOver={handleHover} className={`ceil ceil-${pozX},${pozY}`} {...{ style }} >  
     </div>
   )
 }
