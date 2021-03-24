@@ -1,27 +1,33 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState, useMemo } from 'react'
 import { useOnClickOutside } from '../../hooks'
 import { ICeil } from '../../types'
 
 
 
-const Ceil = ({grid ,pozX, pozY, size, cols, hoverColor, nullColor, filledColor, setActiveX, setActiveY, setHoverOn }: ICeil) => {
+const Ceil = ({grid ,pozX, pozY, size, value, hoverColor, nullColor, filledColor, setPosition }: ICeil) => {
   const [ count, setCount ] = useState(0)
   const [ show, setShow ] = useState(false)
   const refi = useRef(null)
   const [ backgroundColor, setBackGroundColor ] = useState('')
-  // const [columns, setColumns] = useState(cols)
-
-  useEffect(() => {
-    if (cols === 1) {
+  // const [columns, setColumns] = useState(value)
+ 
+  
+  const changeBg = (value :number, filledColor: string, nullColor: string, hoverColor: string) => {
+    if (value === 1) {
       setBackGroundColor(filledColor)
-    } else if (cols === 0) {
+    } else if (value === 0) {
       setBackGroundColor(nullColor)
     }
-    else if (cols === 2) {
+    else if (value === 2) {
       setBackGroundColor(hoverColor)
     }
-    
-  },[filledColor, nullColor, hoverColor, cols ,grid] )
+  }
+  
+  useMemo(() => changeBg(value, filledColor, nullColor, hoverColor), [value, filledColor, nullColor, hoverColor])
+
+  // useEffect(() => {
+
+  // },[filledColor, nullColor, hoverColor, value ,grid] )
   
   const countFields = (pozX: number, pozY: number, grid: number[][]) => {
     let counter = 0;
@@ -36,8 +42,7 @@ const Ceil = ({grid ,pozX, pozY, size, cols, hoverColor, nullColor, filledColor,
       ) {
         counter += 1
         grid[ pozY ][ pozX ] = 3;
-        console.log(grid[ pozY ][ pozX ] = 3);
-
+        
         visit(pozY + 1, pozX); // top
         visit(pozY, pozX + 1); // right
         visit(pozY - 1, pozX); // bottom
@@ -67,15 +72,8 @@ const Ceil = ({grid ,pozX, pozY, size, cols, hoverColor, nullColor, filledColor,
   useOnClickOutside(refi, handleClickOutside)
 
   const handleOnHover = () => {
-    setHoverOn(true)
-    setActiveX(pozX)
-    setActiveY(pozY)
+    setPosition(pozX,pozY)
   }
-
-  // const handleOnMouseLeave = () => {
-  //   // resetConectedFields(pozX, pozY, grid)
-  //   setHoverOn(false)
-  // }
 
   const style = {
     backgroundColor,
@@ -90,7 +88,7 @@ const Ceil = ({grid ,pozX, pozY, size, cols, hoverColor, nullColor, filledColor,
   
   // onMouseLeave={handleOnMouseLeave}
   return (
-    <div ref={refi}  className={`ceil-${pozX},${pozY}`}  {...{ style }}  onMouseEnter={handleOnHover} onMouseOver={handleOnHover} onClick={handleClick}>
+    <div ref={refi}  className={`ceil-${pozX},${pozY}`}  {...{ style }}  onMouseEnter={handleOnHover}  onMouseOver={handleOnHover} onClick={handleClick}>
       {show && count !== 0 && <h3>{count}</h3>}
     </div>
   )

@@ -9,11 +9,9 @@ export interface ICeil {
   filledColor: string,
   size: number,
   grid: number[][],
-  cols: number,
+  value: number,
   // count: number,
-  setHoverOn: (arg: boolean) => void,
-  setActiveX: (arg: number) => void,
-  setActiveY: (arg: number) => void,
+  setPosition: any,
 }
 
 export interface IGridSettings {
@@ -34,3 +32,4 @@ export interface  IGridSlider {
 export interface  ICeilSlider {
   setSize: (arg: any) => void
 }
+
