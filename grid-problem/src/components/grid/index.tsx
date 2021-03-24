@@ -1,4 +1,6 @@
-import React, { useEffect, useState, useMemo } from 'react'
+import React, { useEffect, useState } from 'react'
+import cloneDeep from 'lodash/cloneDeep';
+import { useLocalStorage } from '../../hooks'
 import Ceil from './Ceil'
 import GridSettings from './GridSettings'
 import NullCeil from './NullCeil'
@@ -11,7 +13,8 @@ const Grid = () => {
   const [ size, setSize ] = useState(50)
   const [ NxN, setNxN ] = useState(5)
   const [ grid, setGrid ] = useState<number[][]>([])
-  const [ initialGrid, setInitialGrid ] = useState<number[][]>([])
+  // const [ initialGrid, setInitialGrid ] = useState<number[][]>([])
+  const [ initialGrid, setInitialGrid ] = useLocalStorage<any>('initialGrid', []);
   const [ activePosition, setActivePosition ] = useState({ x: 0, y: 0 })
 
   const setPosition = (x: number, y: number) => {
@@ -26,15 +29,23 @@ const Grid = () => {
         array[ i ][ j ] = Math.round(Math.random())
       }
     }
-    setGrid(array)
-    setInitialGrid(array)
+    return array
   }
 
+  const resetGrid = () => {
+    grid.map((el, i) => el.map((el,i)=> (el === 2 || el === 3) ? el = 1 : el))
+  }
+
+
   useEffect(() => {
-    generateGrid(NxN)
+    const randomGrid = generateGrid(NxN)
+    // const initialGrid = _.cloneDeep(randomGrid)
+    setGrid(randomGrid)
+    // setInitialGrid(initialGrid)
   }, [ NxN ])
 
-  const hoverConectedFields = (pozX: number, pozY: number, grid: number[][], initialGrid: number[][]) => {
+
+  const hoverConectedFields = (pozX: number, pozY: number, grid: number[][]) => {
     const visit = (pozY: number, pozX: number) => {
       if (
         pozY >= 0 &&
@@ -43,7 +54,6 @@ const Grid = () => {
         pozX < grid[ pozY ].length &&
         (grid[ pozY ][ pozX ] === 1)
       ) {
-
         grid[ pozY ][ pozX ] = 2;
         visit(pozY + 1, pozX); // top
         visit(pozY, pozX + 1); // right
@@ -55,47 +65,21 @@ const Grid = () => {
     if (grid[ pozY ][ pozX ] === 1) {
       visit(pozY, pozX);
     }
-    // const reset = (pozY: number, pozX: number) => {
-    //   if (
-    //     pozY >= 0 &&
-    //     pozX >= 0 &&
-    //     pozY < grid.length &&
-    //     pozX < grid[ pozY ].length &&
-    //     (grid[ pozY ][ pozX ] === 0)
-    //   ) {
-
-    //     setGrid(initialGrid)     
-    //   }
-    //   return setGrid(initialGrid)
-    // };
-
-
-    // if (grid[ pozY ][ pozX ] === 0) {
-    //   reset(pozY, pozX);
-    // }
 
   }
 
-  // else if (grid[ pozY ][ pozX ] === 0) {
+  // const resetGrid = () => {
   //   setGrid(initialGrid)
-
-  // }
-
-  // const resetGrid = (pozX: number, pozY: number, grid: number[][]) => {
-  //   if (
-  //     pozY >= 0 &&
-  //     pozX >= 0 &&
-  //     pozY < grid.length &&
-  //     pozX < grid[ pozY ].length &&
-  //     (grid[ pozY ][ pozX ] === 0)
-  //   ) {
-  //     setGrid(initialGrid)
-  //   }
   // };
 
 
+  console.log(initialGrid);
+  console.log("********************");
+  console.log(grid);
+  
+  
   useEffect(() => {
-    activePosition.x && activePosition.y && hoverConectedFields(activePosition.x, activePosition.y, grid, initialGrid);
+    activePosition.x && activePosition.y && hoverConectedFields(activePosition.x, activePosition.y, grid);
   }, [ activePosition, grid, initialGrid ])
 
   // activePosition.x && activePosition.y && resetGrid(activePosition.x, activePosition.y, grid)
@@ -103,8 +87,6 @@ const Grid = () => {
   //   activeY && activeY && resetConectedFields(activeX, activeY, grid)
   //  },[activeY, activeX, grid, hoverOn])
 
-
-  console.log(grid);
 
   return (
     <div className="grid"
@@ -117,7 +99,7 @@ const Grid = () => {
                 {rows.map((value, pozX) => {
                   return (
                     value === 0 ?
-                      <NullCeil {...{ pozX, pozY, size, nullColor }} />
+                      <NullCeil key={`${pozX}${pozY}`} {...{ pozX, pozY, size, nullColor, resetGrid, }} />
                       :
                       <Ceil key={`${pozX}${pozY}`} {...{ grid, pozX, pozY, size, value, hoverColor, nullColor, filledColor, setPosition }} />
                   )

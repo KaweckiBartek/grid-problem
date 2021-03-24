@@ -19,6 +19,7 @@ export interface INullCeil {
   pozY: number,
   nullColor: string,
   size: number,
+  resetGrid: any,
 }
 
 export interface IGridSettings {

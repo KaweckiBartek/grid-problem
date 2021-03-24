@@ -1,7 +1,7 @@
 import React from 'react'
 import { INullCeil } from '../../types'
 
-const NullCeil = ({pozX, pozY, size, nullColor }: INullCeil) => {
+const NullCeil = ({pozX, pozY, size, nullColor, resetGrid }: INullCeil) => {
 
   const style = {
     backgroundColor: nullColor,
@@ -12,8 +12,9 @@ const NullCeil = ({pozX, pozY, size, nullColor }: INullCeil) => {
 
   // onMouseEnter={handleOnHover}
   // onMouseLeave={handleOnMouseLeave}
+  // onMouseEnter={resetGrid} onMouseOver={resetGrid}
   return (
-    <div className={`ceil ceil-${pozX},${pozY}`} {...{ style }} >  
+    <div onClick={resetGrid}  className={`ceil ceil-${pozX},${pozY}`} {...{ style }} >  
     </div>
   )
 }
