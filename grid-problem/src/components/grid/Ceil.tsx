@@ -80,15 +80,13 @@ const Ceil = ({grid ,pozX, pozY, size, value, hoverColor, nullColor, filledColor
     width: `${size}px`,
     height: `${size}px`,
     border: "1px solid gray",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
+
   }
 
   
   // onMouseLeave={handleOnMouseLeave}
   return (
-    <div ref={refi}  className={`ceil-${pozX},${pozY}`}  {...{ style }}  onMouseEnter={handleOnHover}  onMouseOver={handleOnHover} onClick={handleClick}>
+    <div ref={refi}  className={`ceil ceil-${pozX},${pozY}`}  {...{ style }}  onMouseEnter={handleOnHover}  onMouseOver={handleOnHover} onClick={handleClick}>
       {show && count !== 0 && <h3>{count}</h3>}
     </div>
   )

@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import Ceil from './Ceil'
 import GridSettings from './GridSettings'
+import NullCeil from './NullCeil'
 
 
 const Grid = () => {
@@ -12,7 +13,7 @@ const Grid = () => {
   const [ grid, setGrid ] = useState<number[][]>([])
   const [ initialGrid, setInitialGrid ] = useState<number[][]>([])
   const [ activePosition, setActivePosition ] = useState({ x: 0, y: 0 })
-  
+
   const setPosition = (x: number, y: number) => {
     setActivePosition({ x, y })
   }
@@ -50,7 +51,7 @@ const Grid = () => {
         visit(pozY, pozX - 1); // left     
       }
     };
-    
+
     if (grid[ pozY ][ pozX ] === 1) {
       visit(pozY, pozX);
     }
@@ -68,7 +69,7 @@ const Grid = () => {
     //   return setGrid(initialGrid)
     // };
 
-    
+
     // if (grid[ pozY ][ pozX ] === 0) {
     //   reset(pozY, pozX);
     // }
@@ -77,7 +78,7 @@ const Grid = () => {
 
   // else if (grid[ pozY ][ pozX ] === 0) {
   //   setGrid(initialGrid)
-    
+
   // }
 
   // const resetGrid = (pozX: number, pozY: number, grid: number[][]) => {
@@ -94,12 +95,9 @@ const Grid = () => {
 
 
   useEffect(() => {
-
     activePosition.x && activePosition.y && hoverConectedFields(activePosition.x, activePosition.y, grid, initialGrid);
-
-    
   }, [ activePosition, grid, initialGrid ])
-  
+
   // activePosition.x && activePosition.y && resetGrid(activePosition.x, activePosition.y, grid)
   // useEffect(() => {
   //   activeY && activeY && resetConectedFields(activeX, activeY, grid)
@@ -115,11 +113,16 @@ const Grid = () => {
         {grid.map((rows, pozY) => {
           return (
             <div key={pozY} className="row">
-              {rows.map((value, pozX) => {
-                return (
-                  <Ceil key={`${pozX}${pozY}`} {...{ grid, pozX, pozY, size, value, hoverColor, nullColor, filledColor, setPosition }} />
-                )
-              })}
+              <>
+                {rows.map((value, pozX) => {
+                  return (
+                    value === 0 ?
+                      <NullCeil {...{ pozX, pozY, size, nullColor }} />
+                      :
+                      <Ceil key={`${pozX}${pozY}`} {...{ grid, pozX, pozY, size, value, hoverColor, nullColor, filledColor, setPosition }} />
+                  )
+                })}
+              </>
             </div>
           )
         })}

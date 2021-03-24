@@ -14,6 +14,13 @@ export interface ICeil {
   setPosition: any,
 }
 
+export interface INullCeil {
+  pozX: number,
+  pozY: number,
+  nullColor: string,
+  size: number,
+}
+
 export interface IGridSettings {
   filledColor: string,
   setFilledColor: (arg: string) => void,
