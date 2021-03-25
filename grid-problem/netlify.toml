@@ -1,0 +1,10 @@
+[build]
+  command = "yarn build"
+  function = "out_functions"
+  publish = "out_publish"
+  
+[dev]
+  functio = "out_function"
+  publish = "out_publish"
+  framework = "#static"
+  
