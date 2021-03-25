@@ -11,6 +11,7 @@
     "@types/react-color": "^3.0.4",
     "@types/react-dom": "^17.0.2",
     "@types/react-helmet": "^6.1.0",
+    "gsap": "^3.6.1",
     "lodash": "^4.17.21",
     "react": "^17.0.1",
     "react-color": "^2.19.3",

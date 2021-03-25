@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react'
+import { CSSPlugin, gsap } from 'gsap';
 import cloneDeep from 'lodash/cloneDeep';
 import Ceil from './Ceil'
 import GridSettings from './GridSettings'
@@ -13,6 +14,56 @@ const Grid = () => {
   const [ grid, setGrid ] = useState<number[][]>([])
   const [ initialGrid, setInitialGrid ] = useState<number[][]>([])
   const [ activePosition, setActivePosition ] = useState({ x: 0, y: 0 })
+  // const [ loading, setLoading ] = useState(true);
+  // const [ show, setShow ] = useState(false)
+
+  useEffect(() => {
+
+      // setTimeout(() => {
+      //   setLoading(false)
+      // }, 3500)
+
+    CSSPlugin.useSVGTransformAttr = true;
+
+    // setTimeout(() => {
+    //   setShow(true)
+    // }, 100)
+
+    function getRandom(min: number, max: number) {
+      return Math.random() * (max - min) + min;
+    }
+
+    const tl = gsap.timeline()
+    const elements = document.querySelectorAll(".ceil");
+    
+    Array.from(elements).forEach((ceil) => {
+      tl.set(ceil, {
+        x: '+=' + getRandom(-500, 500),
+        y: '+=' + getRandom(-500, 500),
+        rotation: '+=' + getRandom(-720, 720),
+        scale: 0,
+        opacity: 0,
+      });
+    });
+
+    gsap.to(elements, {
+      duration: 1,
+      yoyo: true,
+      repeat: 0,
+      repeatDelay: 0.65,
+      x: 0,
+      y: 0,
+      opacity: 1,
+      scale: 1,
+      rotation: 0,
+      ease: "power4.inOut",
+      stagger: 0.0125
+    })
+
+    return () => {
+      CSSPlugin.useSVGTransformAttr = false;
+    }
+  }, [NxN])
 
   const generateGrid = (NxN: number) => {
     let array = [] as any;
