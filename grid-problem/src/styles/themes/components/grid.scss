@@ -7,12 +7,34 @@
     display: flex;
   }
 
+
   .ceil{
     display: flex;
     align-items: center;
     justify-content: center;
     border: 1px solid gray;
     opacity: 0;
+  }
+
+  .slowMo-btn {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    font-size: 13px;
+    font-weight: 700;
+    margin-top: 150px;
+    color: tomato;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 15px 30px;
+    border: 1px dashed tomato;
+    border-radius: 30px;
+    cursor: pointer;
   }
 
   &__settings{
