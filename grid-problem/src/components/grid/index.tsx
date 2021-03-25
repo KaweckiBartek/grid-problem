@@ -19,14 +19,11 @@ const Grid = () => {
   
 
   useEffect(() => {
+    setShow(true)
     CSSPlugin.useSVGTransformAttr = true;
     function getRandom(min: number, max: number) {
       return Math.random() * (max - min) + min;
     }
-
-    setTimeout(() => {
-      setShow(true)
-    }, 100)
 
     const tl = gsap.timeline()
     const elements = document.querySelectorAll(".ceil");
@@ -50,12 +47,18 @@ const Grid = () => {
       opacity: 1,
       scale: 1,
       rotation: 0,
-      ease: "slowmo",
+      ease: "power2",
       stagger: 0.0125
     })
+     
+
+    setTimeout(() => {
+      setShow(false)
+    }, 6000)
 
     return () => {
       CSSPlugin.useSVGTransformAttr = false;
+      setShow(false)
     }
   }, [NxN])
 
@@ -139,11 +142,18 @@ const Grid = () => {
           )
         })}
       </>
-      { show && <motion.div
+      <motion.div
         className="slowMo-btn"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ opacity: { duration: 0.6 } }}
+        initial={{ opacity: 0, zIndex: 11 }}
+          animate={{
+            opacity: show ? 1 : 0,
+            zIndex: show ? 11 : -11,
+          }}
+          transition={{
+            opacity: { duration: 0.6 },
+            zIndex: { delay: !show ? 0.6 : 0 },
+          }}
+      
         onTouchStart={() => gsap.globalTimeline.timeScale(0.15)}
         onTouchMove={() => gsap.globalTimeline.timeScale(0.15)}
         onTouchCancel={() => gsap.globalTimeline.timeScale(1)}
@@ -151,7 +161,7 @@ const Grid = () => {
         onMouseOver={() => gsap.globalTimeline.timeScale(0.15)}
         onMouseLeave={() => gsap.globalTimeline.timeScale(1)}
       >
-        Hover to Slow Motion</motion.div>}
+        Hover to Slow Motion</motion.div>
       
       <GridSettings {...{ filledColor, setFilledColor, nullColor, setNullColor, hoverColor, setHoverColor, setNxN, setSize }} />
 
