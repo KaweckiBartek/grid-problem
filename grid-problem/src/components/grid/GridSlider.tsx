@@ -34,7 +34,7 @@ const marks = [
 
 function valuetext(value :number) {
   return `${value}`;
-}
+} 
 
 
 export default function GridSlider({setNxN}: IGridSlider) {
