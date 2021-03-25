@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useMemo } from 'react'
+//@ts-ign
+import React, { useEffect, useState, useMemo, useRef } from 'react'
 import { CSSPlugin, gsap } from 'gsap';
 import { motion } from 'framer-motion';
 import cloneDeep from 'lodash/cloneDeep';
@@ -73,7 +74,9 @@ const Grid = () => {
     return setGrid(array)
   }
 
-  const generateInitialGrid = () => {
+  const generateInitialGrid = useRef(()=>{})
+
+  generateInitialGrid.current = () => {
     const initialGrid = cloneDeep(grid)
     return setInitialGrid(initialGrid)
   }
@@ -113,7 +116,7 @@ const Grid = () => {
   useMemo(() => generateGrid(NxN), [ NxN ])
 
   useEffect(() => {
-    generateInitialGrid()
+    generateInitialGrid.current()
   }, [ NxN ])
 
 
