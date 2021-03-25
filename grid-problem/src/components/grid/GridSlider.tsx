@@ -48,7 +48,7 @@ export default function GridSlider({setNxN}: IGridSlider) {
       <Slider
         max={50}
         min={5}
-        defaultValue={5}
+        defaultValue={15}
         getAriaValueText={valuetext}
         aria-labelledby="discrete-slider-custom"
         step={1}
