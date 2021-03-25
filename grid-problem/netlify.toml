@@ -1,4 +1,4 @@
 [build]
   command = "yarn build"
-  publish="grid-problem/public"
-  base = "grid-problem/"
+  publish="/public"
+  base = "grid-problem"
