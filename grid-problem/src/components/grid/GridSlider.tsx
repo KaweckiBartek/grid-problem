@@ -30,7 +30,7 @@ const marks = [
     value: 50,
     label: '50x50',
   },
-];
+]; 
 
 function valuetext(value :number) {
   return `${value}`;
