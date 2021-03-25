@@ -9,6 +9,10 @@ const GridSettings = ({ filledColor, setFilledColor, nullColor, setNullColor, ho
 
   return (
     <div className="grid__settings">
+      <div className="grid__slider">
+        <GridSlider {...{setNxN}}/>
+        <CeilSlider {...{setSize}}/>
+      </div>
       <div className="colorPickers">
         <div className="colorPicker">
           <p className="pickerTitle">Choose filled color</p>
@@ -34,10 +38,7 @@ const GridSettings = ({ filledColor, setFilledColor, nullColor, setNullColor, ho
           />
         </div>
       </div>
-      <div className="grid__slider">
-        <GridSlider {...{setNxN}}/>
-        <CeilSlider {...{setSize}}/>
-      </div>
+      
     </div>
   )
 }

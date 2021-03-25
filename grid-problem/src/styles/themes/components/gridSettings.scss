@@ -1,4 +1,5 @@
 .grid__settings{
+  margin-top: 70px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -7,6 +8,7 @@
   min-height: 800px;
   
   .colorPickers{
+    margin-top: 70px;
     display: flex;
     justify-content: space-between;
     .colorPicker {
@@ -16,7 +18,6 @@
   }
 
   .grid__slider{
-    margin-top: 100px;
     display: flex;
     flex-direction: column;
     justify-content: center;

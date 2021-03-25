@@ -6,7 +6,7 @@ import { IGridSlider } from '../../types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: 500,
+    width: 400,
   },
   margin: {
     height: theme.spacing(3),
@@ -35,7 +35,7 @@ const marks = [
 function valuetext(value :number) {
   return `${value}`;
 } 
-
+ 
 
 export default function GridSlider({setNxN}: IGridSlider) {
   const classes = useStyles();

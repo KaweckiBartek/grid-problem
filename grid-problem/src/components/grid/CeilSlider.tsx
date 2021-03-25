@@ -6,7 +6,7 @@ import { ICeilSlider } from '../../types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: 500,
+    width: 400,
   },
   margin: {
     height: theme.spacing(3),

@@ -36,7 +36,6 @@ const Ceil = ({grid ,pozX, pozY, size, value, hoverColor, nullColor, filledColor
       ) {
         counter += 1
         grid[ pozY ][ pozX ] = 3;
-        
         visit(pozY + 1, pozX); // top
         visit(pozY, pozX + 1); // right
         visit(pozY - 1, pozX); // bottom
