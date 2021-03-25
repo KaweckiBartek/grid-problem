@@ -43,7 +43,7 @@ const Ceil = ({grid ,pozX, pozY, size, value, hoverColor, nullColor, filledColor
         visit(pozY, pozX - 1); // left
       }
     };
-    if (grid[ pozY ][ pozX ] === 2 || grid[ pozY ][ pozX ] === 1) {
+    if (grid!== undefined && (grid[ pozY ][ pozX ] === 2 || grid[ pozY ][ pozX ] === 1)) {
       visit(pozY, pozX);
     }
     return setCount(counter);

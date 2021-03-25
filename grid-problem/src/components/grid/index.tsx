@@ -103,7 +103,7 @@ const Grid = () => {
       }
     };
 
-    if (grid[ pozY ][ pozX ] === 1) {
+    if ( grid!== undefined && grid[ pozY ][ pozX ] === 1 ) {
       visit(pozY, pozX);
     }
 
@@ -126,6 +126,7 @@ const Grid = () => {
 
   return (
     <div className="grid"
+      onMouseLeave={resetGrid}
     >
       <>
         {grid.map((rows, pozY) => {
