@@ -6,8 +6,8 @@ import GridSettings from './GridSettings'
 import NullCeil from './NullCeil'
 
 const Grid = () => {
-  const [ hoverColor, setHoverColor ] = useState("yellow")
-  const [ filledColor, setFilledColor ] = useState("tomato")
+  const [ hoverColor, setHoverColor ] = useState("#a8e4c3")
+  const [ filledColor, setFilledColor ] = useState("#93a5cf")
   const [ nullColor, setNullColor ] = useState("white")
   const [ size, setSize ] = useState(30)
   const [ NxN, setNxN ] = useState(15)
