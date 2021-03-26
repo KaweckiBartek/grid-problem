@@ -13,7 +13,7 @@ const Grid = () => {
   const [ NxN, setNxN ] = useState(15)
   const [ grid, setGrid ] = useState<number[][]>([])
   const [ initialGrid, setInitialGrid ] = useState<number[][]>([])
-  const [ activePosition, setActivePosition ] = useState({ x: 0, y: 0 })  
+  const [ activePosition, setActivePosition ] = useState({ x: 0, y: 0 })
 
   useEffect(() => {
     CSSPlugin.useSVGTransformAttr = true;
@@ -24,7 +24,7 @@ const Grid = () => {
     const tl = new TimelineMax()
     const elements = document.querySelectorAll(".ceil");
     const slowMoBtn = document.querySelector(".slowMo-btn")
-    
+
     Array.from(elements).forEach((ceil) => {
       tl.set(ceil, {
         x: '+=' + getRandom(-500, 500),
@@ -34,8 +34,8 @@ const Grid = () => {
         opacity: 0,
       })
     });
-    
-    tl.fromTo(slowMoBtn, 1, {opacity:0, zIndex: -3}, {opacity:1, zIndex: 3}, )
+
+    tl.fromTo(slowMoBtn, 1, { opacity: 0, zIndex: -3 }, { opacity: 1, zIndex: 3 },)
     tl.to(elements, {
       duration: 1,
       repeat: 0,
@@ -47,12 +47,12 @@ const Grid = () => {
       ease: "power2",
       stagger: 0.0125
     }, "-=1")
-    tl.fromTo(slowMoBtn, 1, {opacity:1, zIndex: 3} , {opacity:0, zIndex: -3},  )
+    tl.fromTo(slowMoBtn, 1, { opacity: 1, zIndex: 3 }, { opacity: 0, zIndex: -3 },)
 
     return () => {
       CSSPlugin.useSVGTransformAttr = false;
     }
-  }, [NxN])
+  }, [ NxN ])
 
   const generateGrid = (NxN: number) => {
     let array = [] as any;
@@ -65,7 +65,7 @@ const Grid = () => {
     return setGrid(array)
   }
 
-  const generateInitialGrid = useRef(()=>{})
+  const generateInitialGrid = useRef(() => { })
 
   generateInitialGrid.current = () => {
     const initialGrid = cloneDeep(grid)
@@ -84,6 +84,9 @@ const Grid = () => {
         pozX >= 0 &&
         pozY < grid.length &&
         pozX < grid[ pozY ].length &&
+        pozY !== undefined &&
+        pozX !== undefined &&
+        grid !== undefined &&
         (grid[ pozY ][ pozX ] === 1)
       ) {
         grid[ pozY ][ pozX ] = 2;
@@ -94,7 +97,7 @@ const Grid = () => {
       }
     };
 
-    if ( grid!== undefined && grid[ pozY ][ pozX ] === 1 ) {
+    if (grid !== undefined &&  pozY !== undefined && pozX !== undefined && grid[ pozY ][ pozX ] === 1) {
       visit(pozY, pozX);
     }
 
@@ -110,16 +113,20 @@ const Grid = () => {
     generateInitialGrid.current()
   }, [ NxN ])
 
+  const handleLeave = () => {
+    setPosition(0,0)
+    resetGrid()
+
+  }
 
   useMemo(() => {
-    activePosition.x && activePosition.y && hoverConectedFields(activePosition.x, activePosition.y, grid)
+   grid !== undefined && activePosition.x && activePosition.y && hoverConectedFields(activePosition.x, activePosition.y, grid)
   }, [ activePosition.x, activePosition.y, grid ])
 
   return (
     <div className="grid"
-      onMouseLeave={resetGrid}
     >
-      <>
+      <div onMouseLeave={handleLeave}>
         {grid.map((rows, pozY) => {
           return (
             <div key={pozY} className="row">
@@ -127,7 +134,7 @@ const Grid = () => {
                 {rows.map((value, pozX) => {
                   return (
                     value === 0 ?
-                      <NullCeil key={`${pozX}${pozY}`} {...{ pozX, pozY, size, nullColor, resetGrid}} />
+                      <NullCeil key={`${pozX}${pozY}`} {...{ pozX, pozY, size, nullColor, resetGrid }} />
                       :
                       <Ceil key={`${pozX}${pozY}`} {...{ grid, pozX, pozY, size, value, hoverColor, nullColor, filledColor, setPosition, resetGrid }} />
                   )
@@ -136,8 +143,8 @@ const Grid = () => {
             </div>
           )
         })}
-      </>
-    
+      </div>
+
       <div
         className="slowMo-btn"
         onTouchStart={() => gsap.globalTimeline.timeScale(0.15)}
@@ -148,7 +155,7 @@ const Grid = () => {
         onMouseLeave={() => gsap.globalTimeline.timeScale(1)}
       >
         Hover to Slow Motion</div>
-      
+
       <GridSettings {...{ filledColor, setFilledColor, nullColor, setNullColor, hoverColor, setHoverColor, setNxN, setSize }} />
 
     </div>
